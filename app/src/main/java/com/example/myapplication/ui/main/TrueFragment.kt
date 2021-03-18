@@ -5,12 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.myapplication.R
 import com.example.myapplication.Resource
+import com.example.myapplication.Todos
+import com.example.myapplication.TodosItem
 
 class TrueFragment : Fragment() {
     companion object {
@@ -22,16 +26,13 @@ class TrueFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val view =  inflater.inflate(R.layout.main_fragment, container, false)
-        viewModel.user.observe(viewLifecycleOwner){
-            if (it is Resource.Loading){
-                    view.findViewById<ProgressBar>(R.id.progressbar).visibility = View.VISIBLE
-                }
-            if (it is Resource.Success){
-                    view.findViewById<ProgressBar>(R.id.progressbar).visibility = View.GONE
-                view.findViewById<TextView>(R.id.message).text = it.data
-                }
 
+        viewModel.todos.observe(viewLifecycleOwner){
+            if (it is Resource.Success){
+                view.findViewById<ListView>(R.id.message).adapter =
+                    ArrayAdapter<TodosItem>(requireContext(), android.R.layout.simple_list_item_1, it.data ?: Todos())
             }
+        }
         return view
     }
 

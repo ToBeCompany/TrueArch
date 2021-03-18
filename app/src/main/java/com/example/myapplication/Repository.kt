@@ -8,12 +8,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class Repository(context: Context) {
-    fun getUser() : LiveData<Resource<String>>{
-        val ld = MutableLiveData<Resource<String>>(Resource.Loading())
-        MainScope().launch {
-            delay(7000)
-                ld.postValue(Resource.Success<String>("EIFEGJQWEG"))
-        }
-        return ld
+    private val reference: WebServise by lazy { Retrofit.retrofit.create(WebServise::class.java) }
+
+    suspend fun getTodos():Todos?{
+        return reference.getTodos().execute().body()
     }
 }
