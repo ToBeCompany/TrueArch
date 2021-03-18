@@ -28,9 +28,19 @@ class TrueFragment : Fragment() {
         val view =  inflater.inflate(R.layout.main_fragment, container, false)
 
         viewModel.todos.observe(viewLifecycleOwner){
-            if (it is Resource.Success){
-                view.findViewById<ListView>(R.id.message).adapter =
-                    ArrayAdapter<TodosItem>(requireContext(), android.R.layout.simple_list_item_1, it.data ?: Todos())
+            when (it){
+                is Resource.Success -> {
+                    view.findViewById<ListView>(R.id.message).adapter =
+                        ArrayAdapter<TodosItem>(
+                            requireContext(),
+                            android.R.layout.simple_list_item_1,
+                            it.data ?: Todos()
+                        )
+                    view.findViewById<ProgressBar>(R.id.progressbar).visibility = View.GONE
+                }
+                is Resource.Loading ->{
+                    view.findViewById<ProgressBar>(R.id.progressbar).visibility = View.VISIBLE
+                }
             }
         }
         return view

@@ -9,8 +9,12 @@ import kotlinx.coroutines.launch
 
 class Repository(context: Context) {
     private val reference: WebServise by lazy { Retrofit.retrofit.create(WebServise::class.java) }
+    private var cache: Todos? = null
 
-    suspend fun getTodos():Todos?{
-        return reference.getTodos().execute().body()
+    suspend fun getTodos(): Todos? {
+        if (cache == null) {
+            cache = reference.getTodos()
+        }
+        return cache
     }
 }
