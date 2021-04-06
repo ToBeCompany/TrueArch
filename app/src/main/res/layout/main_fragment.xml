@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.TrueFragment">
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/textViewShowItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="36sp"
+        android:textColor="#ff0000"
+        android:gravity="center"
+        android:background="@color/black"
+        tools:text ="Добрый вечер. дамы и господа, оавфв ку"/>
     <ProgressBar
         android:id="@+id/progressbar"
         android:layout_width="match_parent"
