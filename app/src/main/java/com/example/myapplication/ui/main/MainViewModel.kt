@@ -18,6 +18,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     private val _todos: MutableLiveData<Resource<Todos>> = MutableLiveData()
     val todos: LiveData<Resource<Todos>> = _todos
 
+    val todosFromDB = repository.allTodos.asLiveData()
 
     private fun loadTodos(){
         viewModelScope.launch(Dispatchers.IO) {

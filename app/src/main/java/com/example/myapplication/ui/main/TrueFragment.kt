@@ -32,16 +32,15 @@ class TrueFragment : Fragment() {
     ): View {
         val view =  inflater.inflate(R.layout.main_fragment, container, false)
         val listView = view.findViewById<ListView>(R.id.message)
-        val textView = view.findViewById<TextView>(R.id.textViewShowItem)
         viewModel.todos.observe(viewLifecycleOwner){
             when (it){
                 is Resource.Success -> {
-                    listView.adapter =
-                        ArrayAdapter<TodosItem>(
-                            requireContext(),
-                            android.R.layout.simple_list_item_1,
-                            it.data ?: Todos()
-                        )
+//                    listView.adapter =
+//                        ArrayAdapter<TodosItem>(
+//                            requireContext(),
+//                            android.R.layout.simple_list_item_1,
+//                            it.data ?: Todos()
+//                        )
                     view.findViewById<ProgressBar>(R.id.progressbar).visibility = View.GONE
                 }
                 is Resource.Loading ->{
@@ -49,6 +48,16 @@ class TrueFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.todosFromDB.observe(viewLifecycleOwner){
+            listView.adapter =
+                ArrayAdapter<TodosItem>(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    it ?: Todos()
+                )
+        }
+
         return view
     }
 
