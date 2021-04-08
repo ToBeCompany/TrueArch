@@ -16,8 +16,16 @@ import org.koin.dsl.module
 class ArchApplication : Application() {
 
     val appModule = module {
-        single<TodosDatabase>{ database}
-        single<WebServise> { Retrofit.retrofit.create(WebServise::class.java) }
+        single<TodosDatabase> {
+            Room.databaseBuilder(
+                applicationContext,
+                TodosDatabase::class.java,
+                "database"
+            )
+                .build()
+        }
+
+        single <WebServise> { Retrofit.retrofit.create(WebServise::class.java) }
         single<Repository> { Repository(get(), get(TodosDatabase::class).todosDao()) }
         viewModel { MainViewModel(get()) }
     }
@@ -25,26 +33,10 @@ class ArchApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        appContext = applicationContext
         startKoin {
             androidLogger()
             androidContext(this@ArchApplication)
             modules(appModule)
-        }
-    }
-
-    companion object {
-        private lateinit var appContext: Context
-        val database: TodosDatabase by lazy {
-            val LOCK = Any()
-            synchronized(LOCK) {
-                Room.databaseBuilder(
-                    appContext,
-                    TodosDatabase::class.java,
-                    "database"
-                )
-                    .build()
-            }
         }
     }
 }

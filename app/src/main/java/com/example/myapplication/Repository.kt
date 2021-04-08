@@ -10,22 +10,22 @@ class Repository(
     private val wordDao: TodosDao
 ) {
 
-    private var cache: Todos? = null
-
-    val allTodos: Flow<List<TodosItem>> = wordDao.getTodos()
-
-    suspend fun getTodos(): Todos? {
-        if (cache == null) {
-            cache = reference.getTodos()
-            insertTodos(cache!!)
-        }
-        return cache
+    suspend fun getTodos():List<TodosItem>{
+        refreshData()
+        return wordDao.getTodos()
     }
 
-    suspend fun insertTodos(todosItem : TodosItem){
+    private suspend fun refreshData() {
+        val result = reference.getTodos()
+        if (result.isSuccessful){
+            insertTodos(result.body()!!)
+        }
+    }
+
+    private suspend fun insertTodos(todosItem : TodosItem){
         wordDao.insert(todosItem)
     }
-    suspend fun insertTodos(todosItem : List<TodosItem>){
+    private suspend fun insertTodos(todosItem : List<TodosItem>){
         wordDao.insert(todosItem)
     }
 }

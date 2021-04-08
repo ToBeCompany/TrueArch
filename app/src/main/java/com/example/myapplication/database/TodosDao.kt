@@ -20,5 +20,5 @@ interface TodosDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM todos")
-    fun getTodos(): Flow<List<TodosItem>>
+    suspend fun getTodos(): List<TodosItem>
 }
