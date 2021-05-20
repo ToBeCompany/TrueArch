@@ -1,6 +1,6 @@
-package com.example.myapplication
+package com.example.myapplication.network
 
-import retrofit2.Call
+import com.example.myapplication.model.Todos
 import retrofit2.Response
 import retrofit2.http.GET
 

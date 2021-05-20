@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.myapplication.TodosItem
-import kotlinx.coroutines.flow.Flow
+import com.example.myapplication.model.TodosItem
 
 @Dao
 interface TodosDao {

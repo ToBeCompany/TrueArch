@@ -1,9 +1,10 @@
 package com.example.myapplication
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Room
 import com.example.myapplication.database.TodosDatabase
+import com.example.myapplication.network.Retrofit
+import com.example.myapplication.network.WebServise
 import com.example.myapplication.ui.main.MainViewModel
 
 import org.koin.android.ext.koin.androidContext
@@ -25,7 +26,8 @@ class ArchApplication : Application() {
                 .build()
         }
 
-        single <WebServise> { Retrofit.retrofit.create(WebServise::class.java) }
+        single <WebServise> { Retrofit.retrofit.create(
+            WebServise::class.java) }
         single<Repository> { Repository(get(), get(TodosDatabase::class).todosDao()) }
         viewModel { MainViewModel(get()) }
     }

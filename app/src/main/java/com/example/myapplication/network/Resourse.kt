@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.network
 
 sealed class Resource<T>(
     val data: T? = null,
